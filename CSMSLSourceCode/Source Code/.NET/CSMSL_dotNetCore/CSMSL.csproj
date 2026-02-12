@@ -1,0 +1,116 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>CSMSL - .NET</Title>
+    <ApplicationIcon>Resources\Build Resources\Icons\favicon.ico</ApplicationIcon>
+    <PackageIcon>android-chrome-192x192.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/dbrademan/CSMSL/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dbrademan/CSMSL</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>Science;Mass-Spectrometry;Chemistry;Proteomics;Glycomics;Metabolomics</PackageTags>
+    <PackageReleaseNotes>Preliminary release of RawFileReader version including transcript / glycan packages. Targeting .NET 7.</PackageReleaseNotes>
+    <Description>This is an Coon lab in-house extension of Derek Bailey's C# Mass Spectrometry Library. This package targets .NET core instead of the .NET Framework</Description>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <Company>Coon Lab</Company>
+    <Authors>dainbrademan,dbaileychess</Authors>
+    <PackageId>Coon.CSMSL.NET</PackageId>
+    <Version>0.1.0</Version>
+    <Copyright>2012-14 Derek J Bailey; 2020-23 Dain R Brademan</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Build Resources\Icons\android-chrome-192x192.png" />
+    <None Remove="Resources\Build Resources\Icons\android-chrome-512x512.png" />
+    <None Remove="Resources\Build Resources\Icons\apple-touch-icon.png" />
+    <None Remove="Resources\Build Resources\Icons\browserconfig.xml" />
+    <None Remove="Resources\Build Resources\Icons\favicon-16x16.png" />
+    <None Remove="Resources\Build Resources\Icons\favicon-32x32.png" />
+    <None Remove="Resources\Build Resources\Icons\icon.png" />
+    <None Remove="Resources\Build Resources\Icons\mstile-150x150.png" />
+    <None Remove="Resources\Build Resources\Icons\safari-pinned-tab.svg" />
+    <None Remove="Resources\Build Resources\Icons\site.webmanifest" />
+    <None Remove="Resources\Build Resources\LICENSE" />
+    <None Remove="Resources\Build Resources\README.md" />
+    <None Remove="Resources\Elements.xml" />
+    <None Remove="Resources\Modifications.xml" />
+    <None Remove="Resources\Proteases.xml" />
+    <None Remove="Resources\RnaModifications.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Build Resources\Icons\favicon-16x16.png" />
+    <EmbeddedResource Include="Resources\Build Resources\Icons\favicon-32x32.png" />
+    <EmbeddedResource Include="Resources\Build Resources\Icons\favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Build Resources\Icons\android-chrome-192x192.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Build Resources\Icons\android-chrome-512x512.png" />
+    <EmbeddedResource Include="Resources\Build Resources\Icons\apple-touch-icon.png" />
+    <EmbeddedResource Include="Resources\Build Resources\Icons\browserconfig.xml" />
+    <EmbeddedResource Include="Resources\Build Resources\Icons\icon.png" />
+    <EmbeddedResource Include="Resources\Build Resources\Icons\mstile-150x150.png" />
+    <EmbeddedResource Include="Resources\Build Resources\Icons\safari-pinned-tab.svg" />
+    <EmbeddedResource Include="Resources\Build Resources\Icons\site.webmanifest" />
+    <EmbeddedResource Include="Resources\Build Resources\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Build Resources\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\RnaModifications.xml" />
+    <EmbeddedResource Include="Resources\Proteases.xml" />
+    <EmbeddedResource Include="Resources\Modifications.xml" />
+    <EmbeddedResource Include="Resources\Elements.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="IO\VendorLibraries\dotNetCore\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OpenMcdf">
+      <HintPath>IO\VendorLibraries\dotNetCore\OpenMcdf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OpenMcdf.Extensions">
+      <HintPath>IO\VendorLibraries\dotNetCore\OpenMcdf.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ThermoFisher.CommonCore.BackgroundSubtraction">
+      <HintPath>IO\VendorLibraries\dotNetCore\ThermoFisher.CommonCore.BackgroundSubtraction.dll</HintPath>
+    </Reference>
+    <Reference Include="ThermoFisher.CommonCore.Data">
+      <HintPath>IO\VendorLibraries\dotNetCore\ThermoFisher.CommonCore.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="ThermoFisher.CommonCore.MassPrecisionEstimator">
+      <HintPath>IO\VendorLibraries\dotNetCore\ThermoFisher.CommonCore.MassPrecisionEstimator.dll</HintPath>
+    </Reference>
+    <Reference Include="ThermoFisher.CommonCore.RawFileReader">
+      <HintPath>IO\VendorLibraries\dotNetCore\ThermoFisher.CommonCore.RawFileReader.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\CSMSL Icons\android-chrome-192x192.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Resources\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
