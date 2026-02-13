@@ -39,15 +39,32 @@ namespace PTCRCleaner_GUI
 
         private bool dataIsValid()
         {
-            if(minCharge < 0 | minCharge > maxCharge)
+            Debug.WriteLine(selectedFiles);
+            if (selectedFiles == null || selectedFiles.Length == 0)
+            {
+                MessageBox.Show("Please select at least one .raw file.",
+                    "Invalid Input",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(outputFolder))
+            {
+                MessageBox.Show("Please select an output folder.",
+                    "Invalid Input",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return false;
+            }
+            if (minCharge < 0 | minCharge > maxCharge)
             {
                 MessageBox.Show("Minimum charge must be greater than 0 and smaller or equal to the maximum charge.",
                     "Invalid Input",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-                return false; 
+                return false;
             }
-            if(isolationWidth <= 0)
+            if (isolationWidth <= 0)
             {
                 MessageBox.Show("Isolationwidth with must be > 0",
                     "Invalid Input",
@@ -206,13 +223,6 @@ namespace PTCRCleaner_GUI
             maxCharge = (int)numericMaxCharge.Value;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Debug.WriteLine($"This is it {PrecurChargeOnly}");
-            Debug.WriteLine(dataIsValid());
-
-        }
-
         private void numericUpDown1_ValueChanged_1(object sender, EventArgs e)
         {
             isolationWidth = (double)numericIsolWidth.Value;
@@ -256,6 +266,58 @@ namespace PTCRCleaner_GUI
         private void numericMzMargMax_ValueChanged(object sender, EventArgs e)
         {
             ExtraMzMax = (double)numericMzMargMax.Value;
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Debug.WriteLine($"This is it {PrecurChargeOnly}");
+            if (dataIsValid())
+            {
+                buttonStart.Enabled = false;
+                buttonStart.Text = "Running";
+
+                Runner runner = new Runner
+                {
+                    SelectedFiles = selectedFiles,
+                    OutputFolder = outputFolder,
+                    MinCharge = minCharge,
+                    MaxCharge = maxCharge,
+                    IsolationWidth = isolationWidth,
+                    PPMTolerance = PPMTolerance,
+                    MinimumMass = minimumMass,
+                    MaximumMass = maximumMass,
+                    IntensityThreshold = intensityThreshold,
+                    ExtraMzMin = ExtraMzMin,
+                    ExtraMzMax = ExtraMzMax,
+                    PrecurChargeOnly = PrecurChargeOnly
+                };
+
+                runner.StatusChanged += Runner_StatusChanged;
+                runner.RunTask();
+
+                buttonStart.Enabled = true;
+                buttonStart.Text = "Start";
+
+            }
+        }
+
+        private void Runner_StatusChanged(string msg)
+        {
+            if (labelStatus.InvokeRequired)
+            {
+                // We are on a background thread, marshal to UI thread
+                labelStatus.Invoke(new Action(() => labelStatus.Text = msg));
+            }
+            else
+            {
+                // We are on the UI thread already
+                labelStatus.Text = msg;
+            }
+        }
+
+
+        private void labelStatus_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

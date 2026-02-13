@@ -46,7 +46,7 @@
             checkBoxPrecZOnly = new CheckBox();
             numericMinCharge = new NumericUpDown();
             numericMaxCharge = new NumericUpDown();
-            button1 = new Button();
+            buttonStart = new Button();
             numericIsolWidth = new NumericUpDown();
             numericPPMTol = new NumericUpDown();
             numericMinMass = new NumericUpDown();
@@ -56,6 +56,7 @@
             numericMzMargMin = new NumericUpDown();
             numericMzMargMax = new NumericUpDown();
             labelDash3 = new Label();
+            labelStatus = new Label();
             ((System.ComponentModel.ISupportInitialize)numericMinCharge).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericMaxCharge).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericIsolWidth).BeginInit();
@@ -233,15 +234,15 @@
             numericMaxCharge.Value = new decimal(new int[] { 10, 0, 0, 0 });
             numericMaxCharge.ValueChanged += numericUpDown2_ValueChanged;
             // 
-            // button1
+            // buttonStart
             // 
-            button1.Location = new Point(587, 292);
-            button1.Name = "button1";
-            button1.Size = new Size(137, 41);
-            button1.TabIndex = 17;
-            button1.Text = "Start";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            buttonStart.Location = new Point(587, 292);
+            buttonStart.Name = "buttonStart";
+            buttonStart.Size = new Size(137, 41);
+            buttonStart.TabIndex = 17;
+            buttonStart.Text = "Start";
+            buttonStart.UseVisualStyleBackColor = true;
+            buttonStart.Click += button1_Click;
             // 
             // numericIsolWidth
             // 
@@ -332,11 +333,22 @@
             labelDash3.TabIndex = 26;
             labelDash3.Text = "-";
             // 
+            // labelStatus
+            // 
+            labelStatus.AutoSize = true;
+            labelStatus.Location = new Point(12, 360);
+            labelStatus.Name = "labelStatus";
+            labelStatus.Size = new Size(64, 15);
+            labelStatus.TabIndex = 27;
+            labelStatus.Text = "Status: Idle";
+            labelStatus.Click += labelStatus_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 384);
+            Controls.Add(labelStatus);
             Controls.Add(labelDash3);
             Controls.Add(numericMzMargMax);
             Controls.Add(numericMzMargMin);
@@ -346,7 +358,7 @@
             Controls.Add(numericMinMass);
             Controls.Add(numericPPMTol);
             Controls.Add(numericIsolWidth);
-            Controls.Add(button1);
+            Controls.Add(buttonStart);
             Controls.Add(numericMaxCharge);
             Controls.Add(numericMinCharge);
             Controls.Add(checkBoxPrecZOnly);
@@ -364,7 +376,7 @@
             Controls.Add(inputBox);
             Controls.Add(label_input);
             Name = "Form1";
-            Text = "PTCR Cleaner";
+            Text = "PTCR Cleaner GUI";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)numericMinCharge).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericMaxCharge).EndInit();
@@ -399,7 +411,7 @@
         private CheckBox checkBoxPrecZOnly;
         private NumericUpDown numericMinCharge;
         private NumericUpDown numericMaxCharge;
-        private Button button1;
+        private Button buttonStart;
         private NumericUpDown numericIsolWidth;
         private NumericUpDown numericPPMTol;
         private NumericUpDown numericMinMass;
@@ -409,5 +421,6 @@
         private NumericUpDown numericMzMargMin;
         private NumericUpDown numericMzMargMax;
         private Label labelDash3;
+        private Label labelStatus;
     }
 }
