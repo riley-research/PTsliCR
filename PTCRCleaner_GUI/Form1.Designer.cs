@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             label_input = new Label();
             inputBox = new TextBox();
             button_select = new Button();
@@ -57,6 +58,13 @@
             numericMzMargMax = new NumericUpDown();
             labelDash3 = new Label();
             labelStatus = new Label();
+            toolTipCharge = new ToolTip(components);
+            toolTipIsolWidth = new ToolTip(components);
+            toolTipPPMTol = new ToolTip(components);
+            toolTipPrecZ = new ToolTip(components);
+            toolTipMassRange = new ToolTip(components);
+            toolTipIntThresh = new ToolTip(components);
+            toolTipAddMZ = new ToolTip(components);
             ((System.ComponentModel.ISupportInitialize)numericMinCharge).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericMaxCharge).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericIsolWidth).BeginInit();
@@ -139,7 +147,7 @@
             // labelChargeRange
             // 
             labelChargeRange.AutoSize = true;
-            labelChargeRange.Location = new Point(64, 171);
+            labelChargeRange.Location = new Point(73, 166);
             labelChargeRange.Name = "labelChargeRange";
             labelChargeRange.Size = new Size(78, 15);
             labelChargeRange.TabIndex = 6;
@@ -149,7 +157,7 @@
             // labelDash
             // 
             labelDash.AutoSize = true;
-            labelDash.Location = new Point(98, 204);
+            labelDash.Location = new Point(107, 199);
             labelDash.Name = "labelDash";
             labelDash.Size = new Size(12, 15);
             labelDash.TabIndex = 7;
@@ -159,7 +167,7 @@
             // labelIsolationWidth
             // 
             labelIsolationWidth.AutoSize = true;
-            labelIsolationWidth.Location = new Point(220, 171);
+            labelIsolationWidth.Location = new Point(229, 166);
             labelIsolationWidth.Name = "labelIsolationWidth";
             labelIsolationWidth.Size = new Size(110, 15);
             labelIsolationWidth.TabIndex = 8;
@@ -169,7 +177,7 @@
             // labelPPMTol
             // 
             labelPPMTol.AutoSize = true;
-            labelPPMTol.Location = new Point(404, 171);
+            labelPPMTol.Location = new Point(413, 166);
             labelPPMTol.Name = "labelPPMTol";
             labelPPMTol.Size = new Size(84, 15);
             labelPPMTol.TabIndex = 9;
@@ -178,7 +186,7 @@
             // labelMassRange
             // 
             labelMassRange.AutoSize = true;
-            labelMassRange.Location = new Point(64, 271);
+            labelMassRange.Location = new Point(72, 266);
             labelMassRange.Name = "labelMassRange";
             labelMassRange.Size = new Size(98, 15);
             labelMassRange.TabIndex = 10;
@@ -188,16 +196,17 @@
             // labelIntThreshold
             // 
             labelIntThreshold.AutoSize = true;
-            labelIntThreshold.Location = new Point(221, 271);
+            labelIntThreshold.Location = new Point(234, 266);
             labelIntThreshold.Name = "labelIntThreshold";
             labelIntThreshold.Size = new Size(105, 15);
             labelIntThreshold.TabIndex = 11;
             labelIntThreshold.Text = "Intensity threshold";
+            labelIntThreshold.Click += labelIntThreshold_Click;
             // 
             // labelExtraMz
             // 
             labelExtraMz.AutoSize = true;
-            labelExtraMz.Location = new Point(404, 271);
+            labelExtraMz.Location = new Point(413, 266);
             labelExtraMz.Name = "labelExtraMz";
             labelExtraMz.Size = new Size(94, 15);
             labelExtraMz.TabIndex = 12;
@@ -207,7 +216,7 @@
             // checkBoxPrecZOnly
             // 
             checkBoxPrecZOnly.AutoSize = true;
-            checkBoxPrecZOnly.Location = new Point(574, 206);
+            checkBoxPrecZOnly.Location = new Point(583, 201);
             checkBoxPrecZOnly.Name = "checkBoxPrecZOnly";
             checkBoxPrecZOnly.Size = new Size(163, 19);
             checkBoxPrecZOnly.TabIndex = 14;
@@ -217,7 +226,7 @@
             // 
             // numericMinCharge
             // 
-            numericMinCharge.Location = new Point(47, 202);
+            numericMinCharge.Location = new Point(56, 197);
             numericMinCharge.Name = "numericMinCharge";
             numericMinCharge.Size = new Size(45, 23);
             numericMinCharge.TabIndex = 15;
@@ -226,7 +235,7 @@
             // 
             // numericMaxCharge
             // 
-            numericMaxCharge.Location = new Point(116, 202);
+            numericMaxCharge.Location = new Point(125, 197);
             numericMaxCharge.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
             numericMaxCharge.Name = "numericMaxCharge";
             numericMaxCharge.Size = new Size(45, 23);
@@ -236,7 +245,7 @@
             // 
             // buttonStart
             // 
-            buttonStart.Location = new Point(587, 292);
+            buttonStart.Location = new Point(596, 278);
             buttonStart.Name = "buttonStart";
             buttonStart.Size = new Size(137, 41);
             buttonStart.TabIndex = 17;
@@ -247,7 +256,7 @@
             // numericIsolWidth
             // 
             numericIsolWidth.DecimalPlaces = 2;
-            numericIsolWidth.Location = new Point(221, 202);
+            numericIsolWidth.Location = new Point(230, 197);
             numericIsolWidth.Name = "numericIsolWidth";
             numericIsolWidth.Size = new Size(120, 23);
             numericIsolWidth.TabIndex = 18;
@@ -257,7 +266,7 @@
             // 
             // numericPPMTol
             // 
-            numericPPMTol.Location = new Point(391, 202);
+            numericPPMTol.Location = new Point(400, 197);
             numericPPMTol.Name = "numericPPMTol";
             numericPPMTol.Size = new Size(120, 23);
             numericPPMTol.TabIndex = 19;
@@ -267,7 +276,7 @@
             // 
             // numericMinMass
             // 
-            numericMinMass.Location = new Point(47, 310);
+            numericMinMass.Location = new Point(56, 296);
             numericMinMass.Name = "numericMinMass";
             numericMinMass.Size = new Size(45, 23);
             numericMinMass.TabIndex = 20;
@@ -276,7 +285,7 @@
             // 
             // numericMaxMass
             // 
-            numericMaxMass.Location = new Point(116, 310);
+            numericMaxMass.Location = new Point(125, 296);
             numericMaxMass.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             numericMaxMass.Name = "numericMaxMass";
             numericMaxMass.RightToLeft = RightToLeft.Yes;
@@ -290,7 +299,7 @@
             // labelDash2
             // 
             labelDash2.AutoSize = true;
-            labelDash2.Location = new Point(97, 312);
+            labelDash2.Location = new Point(106, 298);
             labelDash2.Name = "labelDash2";
             labelDash2.Size = new Size(12, 15);
             labelDash2.TabIndex = 22;
@@ -298,7 +307,7 @@
             // 
             // numericIntThreshold
             // 
-            numericIntThreshold.Location = new Point(221, 310);
+            numericIntThreshold.Location = new Point(230, 296);
             numericIntThreshold.Maximum = new decimal(new int[] { -727379968, 232, 0, 0 });
             numericIntThreshold.Name = "numericIntThreshold";
             numericIntThreshold.Size = new Size(120, 23);
@@ -308,7 +317,7 @@
             // 
             // numericMzMargMin
             // 
-            numericMzMargMin.Location = new Point(397, 310);
+            numericMzMargMin.Location = new Point(406, 296);
             numericMzMargMin.Name = "numericMzMargMin";
             numericMzMargMin.Size = new Size(45, 23);
             numericMzMargMin.TabIndex = 24;
@@ -317,7 +326,7 @@
             // 
             // numericMzMargMax
             // 
-            numericMzMargMax.Location = new Point(466, 310);
+            numericMzMargMax.Location = new Point(475, 296);
             numericMzMargMax.Name = "numericMzMargMax";
             numericMzMargMax.Size = new Size(45, 23);
             numericMzMargMax.TabIndex = 25;
@@ -327,7 +336,7 @@
             // labelDash3
             // 
             labelDash3.AutoSize = true;
-            labelDash3.Location = new Point(448, 312);
+            labelDash3.Location = new Point(457, 298);
             labelDash3.Name = "labelDash3";
             labelDash3.Size = new Size(12, 15);
             labelDash3.TabIndex = 26;
@@ -342,6 +351,10 @@
             labelStatus.TabIndex = 27;
             labelStatus.Text = "Status: Idle";
             labelStatus.Click += labelStatus_Click;
+            // 
+            // toolTipCharge
+            // 
+            toolTipCharge.Popup += toolTipCharge_Popup;
             // 
             // Form1
             // 
@@ -422,5 +435,12 @@
         private NumericUpDown numericMzMargMax;
         private Label labelDash3;
         private Label labelStatus;
+        private ToolTip toolTipCharge;
+        private ToolTip toolTipIsolWidth;
+        private ToolTip toolTipPPMTol;
+        private ToolTip toolTipPrecZ;
+        private ToolTip toolTipMassRange;
+        private ToolTip toolTipIntThresh;
+        private ToolTip toolTipAddMZ;
     }
 }

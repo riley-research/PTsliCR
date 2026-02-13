@@ -1,3 +1,4 @@
+using ScottPlot.Plottables;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -25,6 +26,14 @@ namespace PTCRCleaner_GUI
         public Form1()
         {
             InitializeComponent();
+            toolTipCharge.SetToolTip(labelChargeRange, "Specify the lower and upper limit charge state limit used in slice prediction");
+            toolTipIsolWidth.SetToolTip(labelIsolationWidth, "The isolation width using for the DIA windows");
+            toolTipPPMTol.SetToolTip(labelPPMTol, "Not functional");
+            toolTipPrecZ.SetToolTip(checkBoxPrecZOnly, "Not functional");
+            toolTipMassRange.SetToolTip(labelMassRange, "Not functional");
+            toolTipIntThresh.SetToolTip(labelIntThreshold, "An intensity threshold of the summed intensity in all PTCR slices. Scans will not be included if not above this threshold.");
+            toolTipAddMZ.SetToolTip(labelExtraMz, "Add a specified m/z offset to the lower and/or upper bounds of the precursor window");
+
             minCharge = (int)numericMinCharge.Value;
             maxCharge = (int)numericMaxCharge.Value;
             isolationWidth = (double)numericIsolWidth.Value;
@@ -35,6 +44,7 @@ namespace PTCRCleaner_GUI
             ExtraMzMin = (double)numericMzMargMin.Value;
             ExtraMzMax = (double)numericMzMargMax.Value;
             PrecurChargeOnly = checkBoxPrecZOnly.Checked;
+
         }
 
         private bool dataIsValid()
@@ -316,6 +326,16 @@ namespace PTCRCleaner_GUI
 
 
         private void labelStatus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolTipCharge_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
+        private void labelIntThreshold_Click(object sender, EventArgs e)
         {
 
         }

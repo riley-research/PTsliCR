@@ -43,12 +43,12 @@ namespace PTCRCleaner_GUI
             List<int[]> allChargeCombinations = GetAllCombinations(possibleCharges);
 
             DIAPTCRFunctionCaller(rawFile, txtExportPath, allChargeCombinations, isolationWidth, PPMTolerance,
-                    pdfPath, PrecurChargeOnly, minimumMass, maximumMass, intensityThreshold, ExtraMzMax, fileName); // Method that does all the heavy lifting
+                    pdfPath, PrecurChargeOnly, minimumMass, maximumMass, intensityThreshold, ExtraMzMax, fileName, ExtraMzMin); // Method that does all the heavy lifting
         }
         public void DIAPTCRFunctionCaller(ThermoRawFile thisRaw, string txtExportPath, List<int[]> allChargeCombinations,
         double isolationWidth, int PPMTolerance, string pdfPath, bool PrecurChargeOnly,
         double minimumMass, double maximumMass, double intensityThreshold,
-        double ExtraMzMax, string fileName)
+        double ExtraMzMax, string fileName, double ExtraMzMin)
         {
             /*Steps to take:
                 * 1. Open a connection to a txt file
@@ -64,10 +64,12 @@ namespace PTCRCleaner_GUI
             List<double> allMS1IntensityValues = new List<double>();
             List<double> allIntactMasses = new List<double>();
             List<double> allCorrectedIntensities = new List<double>();
+            List<int> spectrumNumber = new List<int>();
             StreamWriter writer = new StreamWriter(txtExportPath);
             string basePath = Path.GetDirectoryName(txtExportPath);
             string writerDigestPath = Path.Combine(basePath, "PTCR_cleaned_for_extraction.txt");
             StreamWriter writerDigest = new StreamWriter(writerDigestPath);
+            initializeWriterDigest(writerDigest);
             iTextSharp.text.Rectangle pageSize = new iTextSharp.text.Rectangle(1200, 900);
 
             using (var document = new Document(pageSize))
@@ -118,7 +120,7 @@ namespace PTCRCleaner_GUI
 
                         //Writer(writer, TITLE, RTINSECONDS.ToString(), PEPMASS, CHARGE, MASSES, INTENSITIES);
 
-                        double[] correctedINTENSITIES = GetCleanSpectra(precursorMass, isolationWidth, allChargeCombinationsSet, MASSES, INTENSITIES, ExtraMzMax);
+                        double[] correctedINTENSITIES = GetCleanSpectra(precursorMass, isolationWidth, allChargeCombinationsSet, MASSES, INTENSITIES, ExtraMzMax, ExtraMzMin);
 
                         if (correctedINTENSITIES.Sum() < intensityThreshold)
                         {
@@ -126,9 +128,11 @@ namespace PTCRCleaner_GUI
                         }
 
                         allCorrectedIntensities.Add(correctedINTENSITIES.Sum());
+                        spectrumNumber.Add(i);
                         int[] peakGroups = GetPeakGroup(correctedINTENSITIES);
 
                         Writer(writer, TITLE, RTINSECONDS.ToString(), PEPMASS = "DIAPTCR", CHARGE, MASSES, correctedINTENSITIES);
+                        WriterDigest(writerDigest, MASSES, correctedINTENSITIES, i, peakGroups, keepZeros: 1);
 
                         PlotQCLinePlots(INTENSITIES, correctedINTENSITIES, MASSES, precursorMass, isolationWidth, allChargeCombinationsSet, TITLE, document, pdfPath);
                     }
@@ -137,10 +141,60 @@ namespace PTCRCleaner_GUI
             }
 
             writer.Close();
+            writerDigest.Close();
 
             allCorrectedIntensitiesHistogrem(pdfPath, allCorrectedIntensities);
-            writeToCsv(pdfPath, fileName: "allCorrectedIntensities", allCorrectedIntensities);
+            writeToCsv(pdfPath, fileName: @"_summed_PTCR_slice_intensities", spectrumNumber, allCorrectedIntensities);
 
+        }
+
+        static void initializeWriterDigest(StreamWriter writerDigest)
+        {
+            writerDigest.WriteLine("mz,intensity,id,peakgroup");
+        }
+
+        static void WriterDigest(
+    StreamWriter writerDigest,
+    double[] masses,
+    double[] correctedINTENSITIES,
+    int id,
+    int[] peakgroup,
+    int keepZeros)
+        {
+            string formattedID = $"Spectrum{id}";
+            int n = correctedINTENSITIES.Length;
+
+            int lastPeak = -1000000;
+
+            for (int i = 0; i < n; i++)
+            {
+                if (correctedINTENSITIES[i] > 0)
+                    lastPeak = i;
+
+                bool keep = Math.Abs(i - lastPeak) <= keepZeros;
+
+                if (!keep)
+                {
+                    // look ahead for future peak window
+                    for (int j = i + 1; j <= Math.Min(n - 1, i + keepZeros); j++)
+                    {
+                        if (correctedINTENSITIES[j] > 0)
+                        {
+                            keep = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!keep) continue;
+
+                writerDigest.WriteLine(
+                    "{0},{1},{2},{3}",
+                    masses[i],
+                    correctedINTENSITIES[i],
+                    formattedID,
+                    peakgroup[i]);
+            }
         }
 
         static void Writer(StreamWriter writer, string TITLE, string RTINSECONDS, string PEPMASS, string CHARGE, double[] MASSES, double[] INTENSITIES)
@@ -179,10 +233,11 @@ namespace PTCRCleaner_GUI
             return result;
         }
 
-        static double[] GetCleanSpectra(double thisPrecursorMZ, double isolationWidth, List<int[]> allChargeCombinations, double[] MASSES, double[] INTENSITIES, double ExtraMzMax)
+        static double[] GetCleanSpectra(double thisPrecursorMZ, double isolationWidth, List<int[]> allChargeCombinations, 
+            double[] MASSES, double[] INTENSITIES, double ExtraMzMax, double ExtraMzMin)
         {
             double protonMass = 1.007825032241;
-            double lowerBound = thisPrecursorMZ - 0.5 * isolationWidth;
+            double lowerBound = thisPrecursorMZ - 0.5 * isolationWidth - ExtraMzMin;
             double upperBound = (thisPrecursorMZ + 0.5 * isolationWidth) + ExtraMzMax;
             double LBChargeReduced;
             double UBChargeReduced;
@@ -327,7 +382,7 @@ namespace PTCRCleaner_GUI
         static void allCorrectedIntensitiesHistogrem(string pdfPath, List<double> allCorrectedIntensities)
         {
             string tempFilePath = Path.ChangeExtension(pdfPath, ".PNG");
-            tempFilePath = tempFilePath.Replace(@".PNG", @"_CorrectedIntensitiesHistogram.png");
+            tempFilePath = tempFilePath.Replace(@".PNG", @"_summed_PTCR_slice_intensities.png");
             List<double> logValues = allCorrectedIntensities.Select(v => Math.Log10(v)).ToList();
 
             for (int iv = 0; iv < logValues.Count; iv++)
@@ -355,15 +410,18 @@ namespace PTCRCleaner_GUI
             myPlot.SavePng(tempFilePath, 1200, 1000);
         }
 
-        static void writeToCsv(string pdfPath, string fileName, List<double> exportList)
+        static void writeToCsv(string pdfPath, string fileName, List<int> specNr, List<double> exportList)
         {
             string tempFilePath = Path.ChangeExtension(pdfPath, ".txt");
             string id = fileName + ".txt";
             tempFilePath = tempFilePath.Replace(@".txt", id);
             StreamWriter exportTxt = new StreamWriter(tempFilePath);
 
-            foreach (var export in exportList)
+            exportTxt.WriteLine("Spectrum number, Summed PTCR slice intensity");
+
+            for (int i = 0; i < exportList.Count; i++)
             {
+                string export = specNr[i] + "," + exportList[i];
                 exportTxt.WriteLine(export.ToString());
             }
 
@@ -436,10 +494,6 @@ namespace PTCRCleaner_GUI
             return peakGroup;
         }
 
-
-
-
     }
 
     }
-
