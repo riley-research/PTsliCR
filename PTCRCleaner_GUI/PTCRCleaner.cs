@@ -42,6 +42,11 @@ namespace PTCRCleaner_GUI
             rawFile.Open();
             List<int[]> allChargeCombinations = GetAllCombinations(possibleCharges);
 
+            foreach(var a in allChargeCombinations)
+            {
+                Debug.WriteLine("Charge combination: " + a[0] + " to " + a[1]);
+            }
+
             DIAPTCRFunctionCaller(rawFile, txtExportPath, allChargeCombinations, isolationWidth, PPMTolerance,
                     pdfPath, PrecurChargeOnly, minimumMass, maximumMass, intensityThreshold, ExtraMzMax, fileName, ExtraMzMin); // Method that does all the heavy lifting
         }
@@ -143,7 +148,11 @@ namespace PTCRCleaner_GUI
             writer.Close();
             writerDigest.Close();
 
-            allCorrectedIntensitiesHistogrem(pdfPath, allCorrectedIntensities);
+            if(allCorrectedIntensities.Count > 1)
+            {
+                allCorrectedIntensitiesHistogrem(pdfPath, allCorrectedIntensities);
+            }
+            
             writeToCsv(pdfPath, fileName: @"_summed_PTCR_slice_intensities", spectrumNumber, allCorrectedIntensities);
 
         }
@@ -188,6 +197,34 @@ namespace PTCRCleaner_GUI
 
                 if (!keep) continue;
 
+                if (peakgroup[i] == 0)
+                {
+                    int nextVal = 0;
+
+                    // look ahead within keepZeros window
+                    for (int j = i + 1; j <= Math.Min(n - 1, i + keepZeros); j++)
+                    {
+                        if (peakgroup[j] > 0)
+                        {
+                            nextVal = peakgroup[j];
+                            break;
+                        }
+                    }
+
+                    if (nextVal > 0)
+                    {
+                        peakgroup[i] = nextVal; // assign next non-zero value
+                    }
+                    else if (i > 0)
+                    {
+                        peakgroup[i] = peakgroup[i - 1]; // fallback to previous
+                    }
+                    else
+                    {
+                        peakgroup[i] = 0; // first element edge case
+                    }
+                }
+
                 writerDigest.WriteLine(
                     "{0},{1},{2},{3}",
                     masses[i],
@@ -218,6 +255,7 @@ namespace PTCRCleaner_GUI
             int n = input.Length;
             List<int[]> result = new List<int[]>();
 
+            /* This is for setting a lower and upper charge bound
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
@@ -229,8 +267,26 @@ namespace PTCRCleaner_GUI
                     }
                 }
             }
+            */
 
-            return result;
+            for (int i = 0; i < n; i++)
+            {
+                int[] chargesInRange = Enumerable.Range(1, input[i] - 1 + 1).ToArray();
+                var numChargeInRange = chargesInRange.Length;
+
+                for (int j = 0; j < numChargeInRange; j++)
+                {
+
+                    if (chargesInRange[j] == input[i])
+                        continue;
+
+                    List<int> subset = new List<int> { input[i], chargesInRange[j] };
+                    result.Add(subset.ToArray());
+                }
+            }
+
+
+                return result;
         }
 
         static double[] GetCleanSpectra(double thisPrecursorMZ, double isolationWidth, List<int[]> allChargeCombinations, 

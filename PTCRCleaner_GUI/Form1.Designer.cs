@@ -147,11 +147,11 @@
             // labelChargeRange
             // 
             labelChargeRange.AutoSize = true;
-            labelChargeRange.Location = new Point(73, 166);
+            labelChargeRange.Location = new Point(46, 166);
             labelChargeRange.Name = "labelChargeRange";
-            labelChargeRange.Size = new Size(78, 15);
+            labelChargeRange.Size = new Size(129, 15);
             labelChargeRange.TabIndex = 6;
-            labelChargeRange.Text = "Charge range";
+            labelChargeRange.Text = "Precursor charge range";
             labelChargeRange.Click += labelMinCharge_Click;
             // 
             // labelDash
@@ -227,10 +227,11 @@
             // numericMinCharge
             // 
             numericMinCharge.Location = new Point(56, 197);
+            numericMinCharge.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
             numericMinCharge.Name = "numericMinCharge";
             numericMinCharge.Size = new Size(45, 23);
             numericMinCharge.TabIndex = 15;
-            numericMinCharge.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numericMinCharge.Value = new decimal(new int[] { 2, 0, 0, 0 });
             numericMinCharge.ValueChanged += numericUpDown1_ValueChanged;
             // 
             // numericMaxCharge
@@ -317,6 +318,8 @@
             // 
             // numericMzMargMin
             // 
+            numericMzMargMin.DecimalPlaces = 2;
+            numericMzMargMin.Increment = new decimal(new int[] { 1, 0, 0, 131072 });
             numericMzMargMin.Location = new Point(406, 296);
             numericMzMargMin.Name = "numericMzMargMin";
             numericMzMargMin.Size = new Size(45, 23);
@@ -326,6 +329,8 @@
             // 
             // numericMzMargMax
             // 
+            numericMzMargMax.DecimalPlaces = 2;
+            numericMzMargMax.Increment = new decimal(new int[] { 1, 0, 0, 131072 });
             numericMzMargMax.Location = new Point(475, 296);
             numericMzMargMax.Name = "numericMzMargMax";
             numericMzMargMax.Size = new Size(45, 23);
