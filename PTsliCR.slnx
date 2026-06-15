@@ -1,4 +1,4 @@
 <Solution>
   <Project Path="CSMSLSourceCode/Source Code/.NET/CSMSL_dotNetCore/CSMSL.csproj" />
-  <Project Path="PTCRCleaner_GUI/PTCRCleaner_GUI.csproj" />
+  <Project Path="PTsliCR/PTsliCR.csproj" />
 </Solution>

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.Design;
 
-namespace PTCRCleaner_GUI
+namespace PTsliCR
 {
     internal class Runner
     {
@@ -50,7 +50,7 @@ namespace PTCRCleaner_GUI
 
                 StatusChanged?.Invoke($"Extracting PTCR scans from {fileName}");
                 // Fire up the engine
-                PTCRCleaner ptcrCleaner = new PTCRCleaner
+                PTsliCR ptcrCleaner = new PTsliCR
                 {
                     rawFilePath = file,
                     txtExportPath = txtExportPath,

@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace PTCRCleaner_GUI
+namespace PTsliCR
 {
     public partial class Form1 : Form
     {

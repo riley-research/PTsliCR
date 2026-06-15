@@ -1,4 +1,4 @@
-﻿namespace PTCRCleaner_GUI
+﻿namespace PTsliCR
 {
     partial class Form1
     {

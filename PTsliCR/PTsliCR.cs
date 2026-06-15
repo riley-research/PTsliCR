@@ -16,9 +16,9 @@ using static iText.Svg.SvgConstants;
 using System.Diagnostics;
 
 
-namespace PTCRCleaner_GUI
+namespace PTsliCR
 {
-    internal class PTCRCleaner
+    internal class PTsliCR
     {
         public string rawFilePath { get; set; }
         public string txtExportPath { get; set; }
