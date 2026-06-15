@@ -1,11 +1,6 @@
-name: Build and Release PTsliCR
+name: Build and Publish Release Assets
 
 on:
-  push:
-    branches: [ "master" ]
-    tags:
-      - "v*"
-
   release:
     types: [published]
 
@@ -14,7 +9,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: PTsliCR.slnx
+      Solution_Name: PTsliCR.sln
       Project_Path: PTsliCR/PTsliCR.csproj
 
     steps:
