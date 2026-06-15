@@ -13,24 +13,29 @@ jobs:
       Project_Path: PTsliCR/PTsliCR.csproj
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
 
-    - uses: actions/setup-dotnet@v4
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 
-    - run: dotnet restore $env:Solution_Name
+    - name: Restore
+      run: dotnet restore $env:Solution_Name
 
-    - run: dotnet build $env:Solution_Name -c Release --no-restore
+    - name: Build
+      run: dotnet build $env:Solution_Name --configuration Release --no-restore
 
-    - run: dotnet publish $env:Project_Path `
-        -c Release `
-        -r win-x64 `
-        --self-contained true `
-        -p:PublishSingleFile=true `
-        -o publish
+    - name: Publish
+      run: dotnet publish $env:Project_Path `
+           -c Release `
+           -r win-x64 `
+           --self-contained true `
+           -p:PublishSingleFile=true `
+           -o publish
 
-    - name: Upload assets to release
+    - name: Upload EXE to Release Assets
       uses: softprops/action-gh-release@v2
       with:
         files: publish/*
