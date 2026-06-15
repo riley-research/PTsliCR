@@ -402,7 +402,7 @@
             Controls.Add(inputBox);
             Controls.Add(label_input);
             Name = "Form1";
-            Text = "PTCR Cleaner GUI";
+            Text = "PTsliCR";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)numericMinCharge).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericMaxCharge).EndInit();

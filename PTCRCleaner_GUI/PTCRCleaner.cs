@@ -410,6 +410,46 @@ namespace PTCRCleaner_GUI
             document.NewPage();
 
             File.Delete(tempFilePath);
+
+            /*
+            //Export the raw data for the plots
+            try
+            {
+                // 1. Clean the TITLE to make it safe for a Windows filename
+                string safeTitle = string.Join("_", TITLE.Split(Path.GetInvalidFileNameChars()));
+                string baseDir = Path.GetDirectoryName(pdfPath);
+
+                // 2. Export the Raw and Mirrored Peak Data
+                string csvDataPath = Path.Combine(baseDir, $"{safeTitle}_peaks.csv");
+                using (StreamWriter sw = new StreamWriter(csvDataPath))
+                {
+                    sw.WriteLine("MZ,Intensity,CorrectedIntensity,MirroredIntensity");
+                    for (int i = 0; i < Masses.Length; i++)
+                    {
+                        // We export mirroredYs[i] as well so R doesn't have to recalculate the mirror logic
+                        sw.WriteLine($"{Masses[i]},{intensities[i]},{correctedIntensities[i]},{mirroredYs[i]}");
+                    }
+                }
+
+                // 3. Export the Rectangle (Horizontal Span) Ranges
+                string csvRangePath = Path.Combine(baseDir, $"{safeTitle}_ranges.csv");
+                using (StreamWriter sw = new StreamWriter(csvRangePath))
+                {
+                    sw.WriteLine("Min,Max");
+                    foreach (var range in ranges)
+                    {
+                        if (range.Min < Masses.Max())
+                        {
+                            sw.WriteLine($"{range.Min},{range.Max}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Data export failed for {TITLE}: {ex.Message}");
+            }
+            */
         }
 
         static List<(double Min, double Max)> GetWindowsOfInterest(double thisPrecursorMZ, double isolationWidth, List<int[]> allChargeCombinations)
