@@ -1,4 +1,4 @@
-name: Build and Publish Release Assets
+name: Build and Publish PTsliCR
 
 on:
   release:
@@ -9,8 +9,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: PTsliCR.slnx
-      Project_Path: PTsliCR/PTsliCR.csproj
+      PROJECT_PATH: PTsliCR/PTsliCR.csproj
 
     steps:
     - name: Checkout
@@ -21,21 +20,27 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore
-      run: dotnet restore $env:Solution_Name
+    - name: Restore dependencies
+      run: dotnet restore $env:PROJECT_PATH
 
     - name: Build
-      run: dotnet build $env:Solution_Name --configuration Release --no-restore
+      run: dotnet build $env:PROJECT_PATH -c Release --no-restore
 
-    - name: Publish
-      run: dotnet publish $env:Project_Path `
-           -c Release `
-           -r win-x64 `
-           --self-contained true `
-           -p:PublishSingleFile=true `
-           -o publish
+    - name: Publish self-contained app
+      run: dotnet publish $env:PROJECT_PATH `
+        -c Release `
+        -r win-x64 `
+        --self-contained true `
+        -p:PublishSingleFile=true `
+        -p:IncludeAllContentForSelfExtract=true `
+        -p:CopyLocalLockFileAssemblies=true `
+        -p:DebugType=None `
+        -o publish
 
-    - name: Upload EXE to Release Assets
+    - name: List publish output
+      run: dir publish
+
+    - name: Upload Release Assets
       uses: softprops/action-gh-release@v2
       with:
         files: publish/*.exe
