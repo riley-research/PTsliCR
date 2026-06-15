@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: PTsliCR.sln
+      Solution_Name: PTsliCR.slnx
       Project_Path: PTsliCR/PTsliCR.csproj
 
     steps:
