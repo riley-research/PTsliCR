@@ -9,7 +9,7 @@ Then, download and install PTsliCR using the Releases tab on the right side of t
 PTsliCR cleans PTCR scans by using the precursor isolation window and the possible charges supplied by the user to calculate mass-range windows for potential charge-reduced ions. The intensities of all m/z values outside of these ranges are set to 0.
 
 The output includes:
-- `PTCR_cleaned_for_extraction.txt`: a file that is directly compatible with IsoTrac for deconvolution of the masses. Please see XXX for information on IsoTrac.
+- `PTCR_cleaned_for_extraction.txt`: a file that is directly compatible with IsoTrac for deconvolution of the masses. Please see [IsoTrac's GitHub page](https://github.com/riley-research/IsoTrac) for information on IsoTrac.
 - `PTCR_cleaned_mgf.txt`: a cleaned .mgf file with only the PTCR scans, and only intensity values retained for PTCR mass ranges.
 - `PTCR_cleaned_spectra.pdf`: all the extracted scans, where the top shows the raw spectrum, the bottom the cleaned spectrum, and the pink areas represent the calculated mass ranges where charge-reduced ions may be present.
 - `PTCR_cleaned_spectra_summed_PTCR_slice_intensities.png`: a histogram of the summed intensities in all PTCR slices.
